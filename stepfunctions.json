@@ -1,0 +1,348 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "Comment",
+    "StartAt",
+    "States"
+  ],
+  "properties": {
+    "Comment": {
+      "type" : "string"
+    },
+    "StartAt": {
+      "type": "string"
+    },
+    "States": {
+      "additionalProperties": false,
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Type": {
+                  "enum": [
+                    "Task"
+                  ]
+                },
+                "InputPath": {
+                  "type": "string"
+                },
+                "Next": {
+                  "type": "string"
+                },
+                "Comment": {
+                  "type": "string"
+                },
+                "OutputPath": {
+                  "type": "string"
+                },
+                "End": {
+                  "type": "boolean"
+                },
+                "Retry": {
+                  "additionalItems": false,
+                  "type": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "type": "object",
+                    "properties": {
+                      "ErrorEquals": {
+                        "type": "array"
+                      },
+                      "IntervalSeconds": {
+                        "type": "integer"
+                      },
+                      "MaxAttempts": {
+                        "type": "integer"
+                      },
+                      "BackoffRate": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "Catch": {
+                  "additionalItems": false,
+                  "type": "array",
+                  "items": {
+                    "additionalProperties": false,
+                    "type": "object",
+                    "properties": {
+                      "ErrorEquals": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "States.ALL"
+                          ]
+                        }
+                      },
+                      "Next": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "ResultPath": {
+                  "type": "string"
+                },
+                "Resource": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Type": {
+                  "enum": [
+                    "Wait"
+                  ]
+                },
+                "SecondsPath": {
+                  "type": "string"
+                },
+                "TimestampPath": {
+                  "type": "string"
+                },
+                "Timestamp": {
+                  "type": "string"
+                },
+                "Seconds": {
+                  "type": "integer"
+                },
+                "Next": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Type": {
+                  "enum": [
+                    "Pass"
+                  ]
+                },
+                "Result": {
+                  "type": "string"
+                },
+                "ResultPath": {
+                  "type": "string"
+                },
+                "End": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Type": {
+                  "enum": [
+                    "Fail"
+                  ]
+                },
+                "Cause": {
+                  "type": "string"
+                },
+                "Error": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "Choices"
+              ],
+              "properties": {
+                "Type": {
+                  "enum": [
+                    "Choice"
+                  ]
+                },
+                "Default": {
+                  "type": "string"
+                },
+                "Choices": {
+                  "type": "array",
+                  "additionalItems": false,
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "patternProperties": {
+                          "(Not|And|Or)": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "patternProperties": {
+                                    "(Not|And|Or)": {
+                                      "type": "object",
+                                      "additionalProperties": false,
+                                      "patternProperties": {
+                                        "(StringEquals|StringGreaterThan|StringGreaterThanEquals|StringLessThan|StringLessThanEquals|TimestampEquals|TimestampGreaterThan|TimestampGreaterThanEquals|TimestampLessThan|TimestampLessThanEquals)": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "properties": {
+                                        "Variable": {
+                                          "type": "string"
+                                        },
+                                        "Next": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "properties": {
+                                    "Next": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "patternProperties": {
+                                    "(NumericEquals|NumericGreaterThan|NumericGreaterThanEquals|NumericLessThan|NumericLessThanEquals)": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "properties": {
+                                    "Variable": {
+                                      "type": "string"
+                                    },
+                                    "Next": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "BooleanEquals": {
+                                      "type": "boolean"
+                                    },
+                                    "Variable": {
+                                      "type": "string"
+                                    },
+                                    "Next": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+ 
+                              ]
+                            }
+                          }
+                        },
+                        "properties": {
+                          "Next": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "patternProperties": {
+                          "(Not|And|Or)": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "patternProperties": {
+                              "(StringEquals|StringGreaterThan|StringGreaterThanEquals|StringLessThan|StringLessThanEquals|TimestampEquals|TimestampGreaterThan|TimestampGreaterThanEquals|TimestampLessThan|TimestampLessThanEquals)": {
+                                "type": "string"
+                              }
+                            },
+                            "properties": {
+                              "Variable": {
+                                "type": "string"
+                              },
+                              "Next": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "properties": {
+                          "Next": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "patternProperties": {
+                          "(NumericEquals|NumericGreaterThan|NumericGreaterThanEquals|NumericLessThan|NumericLessThanEquals)": {
+                            "type": "number"
+                          }
+                        },
+                        "properties": {
+                          "Variable": {
+                            "type": "string"
+                          },
+                          "Next": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "BooleanEquals": {
+                            "type": "boolean"
+                          },
+                          "Variable": {
+                            "type": "string"
+                          },
+                          "Next": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "patternProperties": {
+                          "(StringEquals|StringGreaterThan|StringGreaterThanEquals|StringLessThan|StringLessThanEquals|TimestampEquals|TimestampGreaterThan|TimestampGreaterThanEquals|TimestampLessThan|TimestampLessThanEquals)": {
+                            "type": "string"
+                          }
+                        },
+                        "properties": {
+                          "Variable": {
+                            "type": "string"
+                          },
+                          "Next": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
